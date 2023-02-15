@@ -2,12 +2,35 @@
 
 namespace App\Models;
 
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
 {
-    use HasFactory;
+    use HasFactory, HasSlug;
+
+    /**
+     * Get Options for generating Slugs
+     */
+    public function getSlugOptions(): SlugOptions {
+        return SlugOptions::create()
+            ->generateSlugsFrom('title')
+            ->saveSlugsTo('slug')
+            ->skipGenerateWhen(fn () => $this->status === 'draft'); // this will require generateSlug on status change
+            // ->doNotGenerateSlugsOnUpdate();
+    }
+
+    /**
+     * Get the route key for the model
+     *
+     * @return string
+     */
+    public function getRouteKeyName(){
+        return $this->slug ? 'slug' : 'id';
+    }
 
     protected $fillable = [
         'title',
@@ -56,8 +79,12 @@ class Book extends Model
         return $this->hasMany(Favorite::class);
     }
 
-    public function books() {
+    public function payments() {
         return $this->hasMany(Payment::class);
+    }
+
+    public function sales() {
+        return $this->hasMany(Sale::class);
     }
 
 }

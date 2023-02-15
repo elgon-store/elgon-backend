@@ -10,13 +10,33 @@ class Sale extends Model
     use HasFactory;
 
     protected $fillable = [
-        'author_id',
         'book_id',
+        'author_id',
         'subscriber_id',
-        'payment_id',
         'admin_id',
+        'payment_id',
         'amount',
         'currency',
         'status',
     ];
+
+    public function book() {
+        return $this->belongsTo(Book::class);
+    }
+
+    public function bookAuthor() {
+        return $this->belongsTo(User::class, 'author_id');
+    }
+
+    public function bookSubscriber() {
+        return $this->belongsTo(User::class, 'subscriber_id');
+    }
+
+    public function verifier() {
+        return $this->belongsTo(User::class, 'admin_id');
+    }
+
+    public function payment() {
+        return $this->belongsTo(Payment::class);
+    }
 }

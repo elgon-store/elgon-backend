@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title')->unique();
             $table->string('slug')->unique();
             $table->string('photo')->nullable();
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->text('desc')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();

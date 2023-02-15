@@ -15,11 +15,10 @@ return new class extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('author_id')->constrained('user')->cascadeOnDelete();
+            $table->foreignId('author_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('subscriber_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('book_id')->constrained()->cascadeOnDelete();
-            $table->foreign('payment_id')->references('id')->on('payments');
-
+            $table->foreignId('payment_id')->constrained();
             $table->foreignId('admin_id')->nullable()->constrained('users')->cascadeOnDelete(); // verified by
 
             $table->enum('status', ['paid', 'pending', 'canceled', 'expired'])->default('pending');

@@ -33,4 +33,8 @@ class Payment extends Model
         return $this->belongsTo(Book::class);
     }
 
+    public function sales() {
+        return $this->hasMany(Sale::class);
+    }
+
 }

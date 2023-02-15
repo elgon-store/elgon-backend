@@ -17,7 +17,8 @@ class SettingsFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'key' => fake()->unique()->word(),
+            'value' => fake()->paragraphs(3, true),
         ];
     }
 }
